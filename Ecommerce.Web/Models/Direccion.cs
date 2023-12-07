@@ -23,11 +23,11 @@ public partial class Direccion
 
     public int ClienteId { get; set; }
 
-    public virtual Cliente Cliente { get; set; } = null!;
+    public virtual Cliente? Cliente { get; set; } = null!;
 
     public virtual ICollection<Empleado> Empleados { get; set; } = new List<Empleado>();
 
-    public virtual Localidad Localidad { get; set; } = null!;
+    public virtual Localidad? Localidad { get; set; } = null!;
 
-    public virtual Provincia Provincia { get; set; } = null!;
+    public virtual Provincia? Provincia { get; set; } = null!;
 }

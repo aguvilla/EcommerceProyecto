@@ -38,5 +38,5 @@ public partial class Cliente
 
     public virtual ICollection<Orden> Ordenes { get; set; } = new List<Orden>();
 
-    public virtual TipoDocumento TipoDocumento { get; set; } = null!;
+    public virtual TipoDocumento? TipoDocumento { get; set; } = null!;
 }
