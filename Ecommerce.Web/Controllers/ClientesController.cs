@@ -59,16 +59,36 @@ namespace Ecommerce.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ClienteId,Apellido,Nombre,FechaNacimiento,TipoDocumentoId,NumeroDocumento,RazonSocial,Nacionalidad,Celular,Telefono,CorreoElectronico,FechaInicio,FechaModificacion")] Cliente cliente)
-        {
+        public async Task<IActionResult> Create(NewClienteViewModel newcliente)
+        {   
+
+            Direccion direccion = new Direccion();
+            Cliente cliente = new Cliente();
+
+            cliente = newcliente.Cliente;
+            direccion = newcliente.Direccion; 
+            cliente.FechaInicio = DateTime.Now;
+
             if (ModelState.IsValid)
             {
+        
                 _context.Add(cliente);
                 await _context.SaveChangesAsync();
+                
+                var clienteid = await _context.Clientes
+                        .FirstOrDefaultAsync(c=> c.NumeroDocumento == cliente.NumeroDocumento);
+                
+                direccion.ClienteId = clienteid.ClienteId;    
+                
+                _context.Add(direccion);
+                
+                await _context.SaveChangesAsync();
+                
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["TipoDocumentoId"] = new SelectList(_context.TiposDocumentos, "TipoDocumentoId", "TipoDocumentoId", cliente.TipoDocumentoId);
-            return View(cliente);
+
+            //ViewData["TipoDocumentoId"] = new SelectList(_context.TiposDocumentos, "TipoDocumentoId", "TipoDocumentoId", cliente.TipoDocumentoId);
+            return View(newcliente);
         }
 
         // GET: Clientes/Edit/5
@@ -165,6 +185,14 @@ namespace Ecommerce.Web.Controllers
         private bool ClienteExists(int id)
         {
           return (_context.Clientes?.Any(e => e.ClienteId == id)).GetValueOrDefault();
+        }
+
+        public async Task<IActionResult> ListaLocalidades(int provinciaId)
+        {
+            var localidades = await _context.Localidades.Where(l => l.ProvinciaId == provinciaId)
+                    .Select(l => new { l.LocalidadId, l.Descripcion})
+                    .ToListAsync();
+            return Json(localidades);
         }
     }
 }

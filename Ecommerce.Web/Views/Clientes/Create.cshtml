@@ -62,16 +62,6 @@
                 <span asp-validation-for="Cliente.CorreoElectronico" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Cliente.FechaInicio" class="control-label"></label>
-                <input asp-for="Cliente.FechaInicio" class="form-control" />
-                <span asp-validation-for="Cliente.FechaInicio" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Cliente.FechaModificacion" class="control-label"></label>
-                <input asp-for="Cliente.FechaModificacion" class="form-control" />
-                <span asp-validation-for="Cliente.FechaModificacion" class="text-danger"></span>
-            </div>
-            <div class="form-group">
                 <label asp-for="Direccion.Calle" class="control-label"></label>
                 <input asp-for="Direccion.Calle" class="form-control" />
                 <span asp-validation-for="Direccion.Calle" class="text-danger"></span>
@@ -118,3 +108,25 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+<script>
+    $(document).ready(function () { 
+        $('#Direccion_ProvinciaId').change(function(){
+            var provinciaId = $(this).val();
+            $.getJSON('Clientes/ListaLocalidades', { provinciaId }, function (data) {
+                var localidadDropdown = $("#Direccion_LocalidadId");
+                localidadDropdown.empty();
+                $.each(data, function (index, item) {
+                    localidadDropdown.append($('<option>', {
+                        value: item.localidadId,
+                        text: item.descripcion
+                    }))
+                });
+            } )
+        }
+    )}
+    )
+    
+</script>
