@@ -29,6 +29,12 @@
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.FechaNacimiento)
         </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.TipoDocumento)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.TipoDocumento.Descripcion)
+        </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.NumeroDocumento)
         </dt>
@@ -77,12 +83,7 @@
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.FechaModificacion)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.TipoDocumento)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.TipoDocumento.TipoDocumentoId)
-        </dd>
+        
     </dl>
     
     <form asp-action="Delete">

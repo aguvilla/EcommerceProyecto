@@ -167,9 +167,9 @@ namespace Ecommerce.Web.Controllers
             {
                 _context.Direcciones.Remove(direccion);
             }
-            
+
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("Details","Clientes",new {id = direccion.ClienteId});
         }
 
         private bool DireccionExists(int id)

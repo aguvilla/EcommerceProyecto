@@ -42,12 +42,54 @@ namespace Ecommerce.Web.Controllers
                 return NotFound();
             }
 
-            return View(cliente);
+            NewClienteViewModel fullCliente = new NewClienteViewModel();
+            var direcciones = await _context.Direcciones.Where(d => d.ClienteId == id)
+                .Include(d => d.Provincia)                    
+                .Include(d => d.Localidad)                    
+                .ToListAsync();
+
+            fullCliente.Cliente = cliente;
+            fullCliente.Direcciones = direcciones;
+            
+
+            return View(fullCliente);
         }
+
+        public IActionResult NewDireccion(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            ViewData["SelectProvincia"] = new SelectList(_context.Provincias, "ProvinciaId", "Descripcion");
+            ViewData["SelectLocalidad"] = new SelectList(_context.Localidades, "LocalidadId", "Descripcion");
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> NewDireccion(Direccion direccion, int id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                direccion.ClienteId = id;
+                _context.Add(direccion);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Details),new {id});
+            }
+
+            return View(direccion);
+        }
+
 
         // GET: Clientes/Create
         public IActionResult Create()
         {
+            IEnumerable<String> nacionalidades = new List<String>() { "Argentina", "Extranjera" };
+            ViewBag.ListaNacionalidad = new SelectList(nacionalidades);
             ViewData["TipoDocumentoId"] = new SelectList(_context.TiposDocumentos, "TipoDocumentoId", "Descripcion");
             ViewData["SelectProvincia"] = new SelectList(_context.Provincias, "ProvinciaId", "Descripcion");
             ViewData["SelectLocalidad"] = new SelectList(_context.Localidades, "LocalidadId", "Descripcion");
@@ -86,7 +128,9 @@ namespace Ecommerce.Web.Controllers
                 
                 return RedirectToAction(nameof(Index));
             }
-
+            ViewData["TipoDocumentoId"] = new SelectList(_context.TiposDocumentos, "TipoDocumentoId", "Descripcion");
+            ViewData["SelectProvincia"] = new SelectList(_context.Provincias, "ProvinciaId", "Descripcion");
+            ViewData["SelectLocalidad"] = new SelectList(_context.Localidades, "LocalidadId", "Descripcion");
             //ViewData["TipoDocumentoId"] = new SelectList(_context.TiposDocumentos, "TipoDocumentoId", "TipoDocumentoId", cliente.TipoDocumentoId);
             return View(newcliente);
         }
@@ -104,7 +148,9 @@ namespace Ecommerce.Web.Controllers
             {
                 return NotFound();
             }
-            ViewData["TipoDocumentoId"] = new SelectList(_context.TiposDocumentos, "TipoDocumentoId", "TipoDocumentoId", cliente.TipoDocumentoId);
+            IEnumerable<String> nacionalidades = new List<String>() { "Argentina", "Extranjera" };
+            ViewBag.ListaNacionalidad = new SelectList(nacionalidades);
+            ViewData["TipoDocumentoId"] = new SelectList(_context.TiposDocumentos, "TipoDocumentoId", "Descripcion", cliente.TipoDocumentoId);
             return View(cliente);
         }
 
@@ -115,6 +161,7 @@ namespace Ecommerce.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("ClienteId,Apellido,Nombre,FechaNacimiento,TipoDocumentoId,NumeroDocumento,RazonSocial,Nacionalidad,Celular,Telefono,CorreoElectronico,FechaInicio,FechaModificacion")] Cliente cliente)
         {
+
             if (id != cliente.ClienteId)
             {
                 return NotFound();
@@ -124,6 +171,7 @@ namespace Ecommerce.Web.Controllers
             {
                 try
                 {
+                    cliente.FechaModificacion = DateTime.Now;
                     _context.Update(cliente);
                     await _context.SaveChangesAsync();
                 }
