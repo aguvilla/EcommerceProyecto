@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Ecommerce.Web.Data;
 using Ecommerce.Web.Models;
+using Ecommerce.Web.ViewModels;
 
 namespace Ecommerce.Web.Controllers
 {
@@ -20,11 +21,26 @@ namespace Ecommerce.Web.Controllers
         }
 
         // GET: Clientes
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string search)
         {
-            var applicationDbContext = _context.Clientes.Include(c => c.TipoDocumento);
-            return View(await applicationDbContext.ToListAsync());
+
+            IQueryable<Cliente> clientes = _context.Clientes
+               .Include(c => c.TipoDocumento);
+
+            if (!string.IsNullOrEmpty(search))
+            {
+                Int32.TryParse(search, out int numeroDNI);
+                
+                var clienteA = clientes.Where(c => c.Apellido.Contains(search));
+                var clienteB = clientes.Where(c => c.Nombre.Contains(search));
+                var clienteC = clientes.Where(c => c.NumeroDocumento == (numeroDNI));
+
+                clientes = clienteA.Union(clienteB).Union(clienteC);
+            }
+            
+            return View(await clientes.ToListAsync());
         }
+      
 
         // GET: Clientes/Details/5
         public async Task<IActionResult> Details(int? id)

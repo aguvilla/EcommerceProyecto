@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace Ecommerce.Web.Models;
 
@@ -12,6 +14,9 @@ public partial class Descuento
     public string? Descripcion { get; set; }
 
     public bool? Activo { get; set; }
+    
+    [Range(0,100),Required(ErrorMessage ="Se requiere un numero entre 0-100"),DisplayName("Porcentaje")]
+    public int Porcentaje { get; set; }
 
     public DateTime? Creado { get; set; }
 
