@@ -1,0 +1,137 @@
+﻿@model IEnumerable<Ecommerce.Web.Models.Producto>
+
+@{
+    ViewData["Title"] = "Productos";
+}
+
+<h1>Productos</h1>
+
+<p>
+    <a asp-action="Create">Crear Producto</a>
+</p>
+<div>
+    <form asp-action="Index" method="get">
+        <div class="row align-items-center m-2">
+            <div class="col-sm-2" style="width:160px;">
+                <label for="producto" class="form-label">Buscar por nombre</label>
+            </div>
+
+            <div class="col-3">
+                <input name="producto" class="form-control " type="text" />
+            </div>
+
+            <div class="col-auto">
+                <button class="btn btn-primary">Enviar</button>
+            </div>
+        </div>
+        <div class="row align-items-center m-2">
+            <div class="col-2" style="width:160px;">
+                <label for="sku" class="form-label">Buscar por SKU</label>
+            </div>
+
+            <div class="col-3">
+                <input name="sku" class="form-control " type="text" />
+            </div>
+
+            <div class="col-auto">
+                <button class="btn btn-primary">Enviar</button>
+            </div>
+        </div>
+        <div class="row align-items-center m-2">
+            <div class="col-2" style="width:160px;">
+                <label for="upc" class="form-label">Buscar por UPC</label>
+            </div>
+
+            <div class="col-3">
+                <input name="upc" class="form-control " type="text" />
+            </div>
+
+            <div class="col-auto">
+                <button class="btn btn-primary">Enviar</button>
+            </div>
+        </div>
+    </form>
+    <a asp-action="Index" class="btn btn-danger">Reiniciar</a>
+</div>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Nombre)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Descripcion)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Color)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SKU)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UPC)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Precio)
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.Marca)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Categoria)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Descuento)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Inventario.Cantidad)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nombre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Descripcion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Color)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SKU)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UPC)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Precio)
+            </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.Marca.Nombre)
+                </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Categoria.Nombre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Descuento.Nombre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Inventario.Cantidad)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.ProductoId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.ProductoId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.ProductoId">Delete</a>|
+                <a asp-controller="Inventarios" asp-action="Details" asp-route-id="@item.InventarioId">Inventario</a>
+                
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

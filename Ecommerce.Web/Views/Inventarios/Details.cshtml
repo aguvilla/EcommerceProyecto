@@ -1,0 +1,48 @@
+﻿@model Ecommerce.Web.Models.Inventario
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Inventario</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Cantidad)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Cantidad)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Descripcion)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Descripcion)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Creado)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Creado)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Modificado)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Modificado)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Eliminado)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Eliminado)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.InventarioId">Edit</a> |
+    <a asp-controller="Productos" asp-action="Index">Back to List</a>
+</div>

@@ -9,6 +9,26 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
+
+<div>
+    <form asp-action="Index" method="post">
+        <div class="row align-items-center ">
+    
+            <div class="col-auto">
+                <label for="search" class="form-label" >Buscar</label>
+            </div>
+    
+            <div class="col-5">
+                <input  name="search" class="form-control " type="text"/>
+            </div>
+    
+            <div class="col-auto">
+                <button class="btn btn-primary">Enviar</button>
+            </div>
+        </div>
+    </form>
+</div>
+
 <table class="table">
     <thead>
         <tr>

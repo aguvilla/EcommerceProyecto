@@ -10,12 +10,12 @@ public partial class Producto
     public string? Nombre { get; set; }
 
     public string? Descripcion { get; set; }
-
+    public string? Color {  get; set; }
     public string? SKU { get; set; }
 
     public int? UPC { get; set; }
 
-    public int InventarioId { get; set; }
+    public int? InventarioId { get; set; }
 
     public int CategoriaId { get; set; }
 
@@ -31,13 +31,13 @@ public partial class Producto
 
     public DateTime? Eliminado { get; set; }
 
-    public virtual Categoria Categoria { get; set; } = null!;
+    public virtual Categoria? Categoria { get; set; } = null!;
 
-    public virtual Descuento Descuento { get; set; } = null!;
+    public virtual Descuento? Descuento { get; set; } = null!;
 
-    public virtual Inventario Inventario { get; set; } = null!;
+    public virtual Inventario? Inventario { get; set; } = null!;
 
-    public virtual Marca Marca { get; set; } = null!;
+    public virtual Marca? Marca { get; set; } = null!;
 
     public virtual ICollection<OrdenCarrito> OrdenesCarritos { get; set; } = new List<OrdenCarrito>();
 }
